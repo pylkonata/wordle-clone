@@ -1,4 +1,5 @@
 import { dictionary } from './dictionary.js';
+import { Cells, Keys } from './cells.js';
 const cellContainer = document.querySelector('.cell-container');
 let btnCheck = document.querySelector('.check-btn');
 let btnReset = document.querySelector('.reset-btn');
@@ -14,10 +15,17 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(0, dictionary.length - 1);
 let randomWord = dictionary[randomNum];
+console.log(randomWord);
+//Create Cells, Keyboard
+const cell = new Cells();
+cell.createCells();
+const key = new Keys();
+key.createKeyboard();
 //Start Game
 
 function startGame() {
   document.addEventListener('keydown', trackKeyPress);
+  // document.addEventListener('pointerdown', trackKeyPress);
   getNextCell();
 }
 startGame();
@@ -44,8 +52,10 @@ function pressKey(key) {
   if (nextCell.classList.contains('intarget')) {
     nextCell.classList.remove('intarget');
   }
+  nextCell.focus();
   nextCell.dataset.letter = key.toLowerCase();
-  nextCell.textContent = key;
+  nextCell.value = key;
+  console.log(key);
   nextCell.classList.add('active');
 }
 function getNextCell() {
@@ -65,6 +75,7 @@ function getCheckedCells() {
 }
 function checkBtn() {
   let btnCheck = document.querySelector('.check-btn');
+  console.log(checkBtnState);
   if (checkBtnState) {
     btnCheck.classList.remove('disabled');
   } else {
@@ -72,6 +83,7 @@ function checkBtn() {
   }
   btnCheck.disabled = !checkBtnState;
   checkBtnState = !checkBtnState;
+  console.log(checkBtnState);
 }
 function deleteKey() {
   const activeCells = getActiveCells();
@@ -83,8 +95,8 @@ function deleteKey() {
     checkBtn();
   }
   const lastCell = activeCells[activeCells.length - 1];
-  
-  lastCell.textContent = '';
+  lastCell.focus();
+  lastCell.value = '';
   lastCell.classList.remove('active');
   delete lastCell.dataset.letter;
 
