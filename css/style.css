@@ -1,12 +1,13 @@
 :root {
-  --bc: #e3baba;
-  --active: #ac6363;
+  --bcc: #fbfcff;
+  --ligth-blue: #dce1ed;
+  --active: #7884e5;
   --wrong: #39393C;
-  --wp: #fad117;
+  --wp: #f3c237;
   --correct: #6cbe63;
   --white: #fff;
   --black: #000;
-  --start-cell: #e32b2b;
+  --start-cell: #a9a4d7;
 }
 
 * {
@@ -24,13 +25,13 @@ body,
 .main {
   height: 100%;
   width: 100%;
-  background-color: var(--bc);
+  background-color: var(--white);
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
   font-family: 'Noto Sans', sans-serif;
 }
 .container {
   max-width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0 auto;
 }
 .main-container {
@@ -41,9 +42,13 @@ body,
   gap: 1.25em;
 }
 .title {
-  font-size: 2em;
+  font-size: 1.5em;
   text-transform: uppercase;
   font-weight: bold;
+  color: var(--correct);
+}
+.title__color{
+  color: var(--wp);
 }
 .game-rools {
   max-width: 50vw;
@@ -54,22 +59,22 @@ body,
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-rows: repeat(6, 4em);
-  grid-template-columns: repeat(5, 4em);  
+  grid-template-rows: repeat(6, 3.5em);
+  grid-template-columns: repeat(5, 3.5em);  
   gap: 0.2em;
 }
 .cell {
   font-size: 2em;
   color: var(--white);
-  background-color: var(--bc);
-  border: .07em solid var(--black);
+  background-color: var(--bcc);
+  border: 0.07em solid #dee1e9;
+  border-radius: 0.1em;
   text-transform: uppercase;
   font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   user-select: none;
 }
+
 .btn-wrap {
   display: flex;
   justify-content: center;
@@ -106,6 +111,7 @@ body,
 }
 .active {
   border-color: var(--active);
+  color: var(--black);
 }
 .wrong {
   background-color: var(--wrong);
@@ -118,4 +124,41 @@ body,
 .correct {
   background-color: var(--correct);
   border: none;
+}
+.keyboard-container {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-auto-rows: 3em;
+  grid-template-columns: repeat(24, 1.25em);
+  gap: 0.25em;
+  /* display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-rows: repeat(3, 2em);
+  grid-template-columns: repeat(20, 2.1em);
+  gap: 0.4em; */
+}
+.key {
+  font-size: inherit;
+  grid-column: span 2;
+  padding: 0;
+  display: flex;
+  color: #5a6376;
+  background-color: var(--ligth-blue);
+  border-radius: 0.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.key[data-keys='enter'],
+.key[data-keys='backspace'] {
+  grid-column: span 3;
+}
+.key[data-keys='backspace'] {
+  background-image: url('../svg/backspace.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
