@@ -3,6 +3,7 @@ import { Cells, Keys } from './cells.js';
 const cellContainer = document.querySelector('.cell-container');
 let btnCheck = document.querySelector('.check-btn');
 let btnReset = document.querySelector('.reset-btn');
+const keyboardContainer = document.querySelector('.keyboard-container');
 const wordLength = 5;
 const notFound = -1;
 const sec = 500;
@@ -15,7 +16,7 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(0, dictionary.length - 1);
 let randomWord = dictionary[randomNum];
-console.log(randomWord);
+// console.log(randomWord);
 //Create Cells, Keyboard
 const cell = new Cells();
 cell.createCells();
@@ -25,7 +26,7 @@ key.createKeyboard();
 
 function startGame() {
   document.addEventListener('keydown', trackKeyPress);
-  // document.addEventListener('pointerdown', trackKeyPress);
+  keyboardContainer.addEventListener('pointerdown', trackKeyClick);
   getNextCell();
 }
 startGame();
@@ -38,6 +39,26 @@ function trackKeyPress(event) {
   }
   if (event.key === 'Backspace' || event.key === 'Delete') {
     deleteKey();
+    return;
+  }
+}
+function trackKeyClick(event) {
+  const regexp = new RegExp('^[а-щА-ЩЬьЮюЯяЇїІіЄєҐґ]$', 'g');
+  const keyTargetValue = event.target.dataset.keys;
+  console.log(keyTargetValue);
+  if (keyTargetValue.match(regexp)) {
+    pressKey(keyTargetValue);
+    return;
+  }
+  if (keyTargetValue === 'backspace') {
+    deleteKey();
+    return;
+  }
+  if (keyTargetValue === 'enter') {
+    const activeCells = getActiveCells();
+    if (activeCells.length === wordLength) {
+      checkInputWord();
+    }
     return;
   }
 }
