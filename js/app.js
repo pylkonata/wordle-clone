@@ -1,5 +1,7 @@
 import { dictionary } from './dictionary.js';
 import { Cells, Keys } from './cells.js';
+const gameRools = document.querySelector('.game-rools');
+const gameRoolsWrap = document.querySelector('.game-rools__wrap');
 const cellContainer = document.querySelector('.cell-container');
 let btnCheck = document.querySelector('.check-btn');
 let btnReset = document.querySelector('.reset-btn');
@@ -10,13 +12,23 @@ const sec = 500;
 const totalCellsNumber = 30;
 let checkBtnState = true;
 
+//Pop-Up close
+gameRools.addEventListener('click', (event) => {
+  const target = event.target;
+  console.log(target);
+  if (target.classList.contains('game-rools__close') ||
+    target.classList.contains('game-rools')) {
+    gameRoolsWrap.classList.add('close');
+    gameRools.classList.add('close__back');
+  }
+})
 //Get Random Word
 function getRandomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 let randomNum = getRandomNum(0, dictionary.length - 1);
 let randomWord = dictionary[randomNum];
-// console.log(randomWord);
+console.log(randomWord);
 //Create Cells, Keyboard
 const cell = new Cells();
 cell.createCells();
@@ -39,6 +51,13 @@ function trackKeyPress(event) {
   }
   if (event.key === 'Backspace' || event.key === 'Delete') {
     deleteKey();
+    return;
+  }
+  if (event.key === 'Enter') {
+    const activeCells = getActiveCells();
+    if (activeCells.length === wordLength) {
+      checkInputWord();
+    }
     return;
   }
 }
