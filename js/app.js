@@ -1,11 +1,12 @@
 import { dictionary } from './dictionary.js';
 import { Cells, Keys } from './cells.js';
-const popUp = document.querySelector('.pop-up');
-const popUpWrap = document.querySelector('.pop-up__wrap');
+
 const cellContainer = document.querySelector('.cell-container');
 let btnCheck = document.querySelector('.check-btn');
 let btnReset = document.querySelector('.reset-btn');
 const keyboardContainer = document.querySelector('.keyboard-container');
+const popUp = document.querySelector('.pop-up');
+const popUpWrap = document.querySelector('.pop-up__wrap');
 const popUpStart = document.querySelector('.pop-up__start');
 const popUpWin = document.querySelector('.pop-up__win');
 const popUpLost = document.querySelector('.pop-up__lost');
@@ -22,14 +23,15 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(0, dictionary.length - 1);
 let randomWord = dictionary[randomNum];
-console.log(randomWord);
+// console.log(randomWord);
+
 //Create Cells, Keyboard
 const cell = new Cells();
 cell.createCells();
 const key = new Keys();
 key.createKeyboard();
-//Start Game
 
+//Start Game
 function startGame() {
   document.addEventListener('keydown', trackKeyPress);
   keyboardContainer.addEventListener('pointerdown', trackKeyClick);
@@ -58,7 +60,7 @@ function trackKeyPress(event) {
 function trackKeyClick(event) {
   const regexp = new RegExp('^[а-щА-ЩЬьЮюЯяЇїІіЄєҐґ]$', 'g');
   const keyTargetValue = event.target.dataset.keys;
-  console.log(keyTargetValue);
+  
   if (keyTargetValue.match(regexp)) {
     pressKey(keyTargetValue);
     return;
@@ -89,7 +91,6 @@ function pressKey(key) {
   nextCell.focus();
   nextCell.dataset.letter = key.toLowerCase();
   nextCell.value = key;
-  console.log(key);
   nextCell.classList.add('active');
 }
 function getNextCell() {
@@ -109,7 +110,6 @@ function getCheckedCells() {
 }
 function checkBtn() {
   let btnCheck = document.querySelector('.check-btn');
-  console.log(checkBtnState);
   if (checkBtnState) {
     btnCheck.classList.remove('disabled');
   } else {
@@ -117,7 +117,6 @@ function checkBtn() {
   }
   btnCheck.disabled = !checkBtnState;
   checkBtnState = !checkBtnState;
-  console.log(checkBtnState);
 }
 function deleteKey() {
   const activeCells = getActiveCells();
@@ -176,8 +175,7 @@ function checkInputWord() {
             keyElement.classList.remove('wrong-place');
           }
           keyElement.classList.add('correct');
-          console.log(activeCells[i].dataset.letter);
-          console.log(keyElement);
+
         } else if (pos !== notFound && pos !== i) {
           activeCells[i].classList.remove('active');
           activeCells[i].classList.add('wrong-place');
@@ -225,7 +223,7 @@ function checkInputWord() {
     });
   }  
 }
-
+// Btn Listeners
 btnCheck.addEventListener('click', checkInputWord);
 btnReset.addEventListener('click', () => {
   document.location.reload();
@@ -234,7 +232,6 @@ btnReset.addEventListener('click', () => {
 //Pop-Up close
 popUp.addEventListener('click', (event) => {
   const target = event.target;
-  console.log(target);
   if (target.classList.contains('pop-up__close') ||
     target.classList.contains('pop-up')) {
     popUpWrap.classList.add('close');
