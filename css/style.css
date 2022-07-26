@@ -40,6 +40,7 @@ body,
   align-items: center;
   flex-direction: column;
   gap: 1.25em;
+  position: relative;
 }
 .title {
   font-size: 1.5em;
@@ -48,12 +49,76 @@ body,
   color: var(--correct);
 }
 .title__color{
-  color: var(--wp);
+  color: var(--wp);  
 }
-.game-rools {
-  max-width: 50vw;
-  text-align: center;
+.pop-up {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--black);
+  background-color: rgba(70, 68, 143, 0.8);
+  transition: all 0.7s ease 0s;
+  z-index: 5;
+}
+.pop-up__wrap {
+  max-width: 50vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+  background-color: var(--white);
+  color:#000;
+  padding: 1em;
+  border: 3px solid #2e2c6f;
+  border-radius: 10px;  
+}
+.pop-up__start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+.pop-up__close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  text-decoration: none;
+  padding: 0 3px;
+  background-color: var(--white);
+  font-size: 1em;
+  cursor: pointer;
+}
+.pop-up__title {
+  text-shadow: 1px 1px 2px var(--black);
+}
+.yellow {
+  color: var(--wp);
+  font-weight: bold;
+}
+.green {
+  color: var(--correct);
+  font-weight: bold;
+}
+.grey {
+  color: var(--wrong);
+  font-weight: bold;
+}
+.close {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(0px, -100%);
+  transition: all 1.5s ease 0s, color 1s;
+}
+.close__back {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 2s ease 0s;
 }
 .cell-container {
   display: grid;
@@ -113,18 +178,6 @@ body,
   border-color: var(--active);
   color: var(--black);
 }
-.wrong {
-  background-color: var(--wrong);
-  border: none;
-}
-.wrong-place {
-  background-color: var(--wp);
-  border: none;
-}
-.correct {
-  background-color: var(--correct);
-  border: none;
-}
 .keyboard-container {
   display: grid;
   justify-content: center;
@@ -132,12 +185,6 @@ body,
   grid-auto-rows: 3em;
   grid-template-columns: repeat(24, 1.25em);
   gap: 0.25em;
-  /* display: grid;
-  justify-content: center;
-  align-content: center;
-  grid-template-rows: repeat(3, 2em);
-  grid-template-columns: repeat(20, 2.1em);
-  gap: 0.4em; */
 }
 .key {
   font-size: inherit;
@@ -161,4 +208,27 @@ body,
   background-image: url('../svg/backspace.svg');
   background-repeat: no-repeat;
   background-position: center;
+}
+.pop-up__win,
+.pop-up__lost,
+.pop-up__absent {
+  margin-top: 10px;
+}
+.wrong {
+  background-color: var(--wrong);
+  border: none;
+  color: var(--white);
+}
+.wrong-place {
+  background-color: var(--wp);
+  border: none;
+  color: var(--white);
+}
+.correct {
+  background-color: var(--correct);
+  border: none;
+  color: var(--white);
+}
+.hide {
+  display: none;
 }

@@ -1,9 +1,15 @@
 import { dictionary } from './dictionary.js';
 import { Cells, Keys } from './cells.js';
+const popUp = document.querySelector('.pop-up');
+const popUpWrap = document.querySelector('.pop-up__wrap');
 const cellContainer = document.querySelector('.cell-container');
 let btnCheck = document.querySelector('.check-btn');
 let btnReset = document.querySelector('.reset-btn');
 const keyboardContainer = document.querySelector('.keyboard-container');
+const popUpStart = document.querySelector('.pop-up__start');
+const popUpWin = document.querySelector('.pop-up__win');
+const popUpLost = document.querySelector('.pop-up__lost');
+const popUpAbsent = document.querySelector('.pop-up__absent');
 const wordLength = 5;
 const notFound = -1;
 const sec = 500;
@@ -16,7 +22,7 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(0, dictionary.length - 1);
 let randomWord = dictionary[randomNum];
-// console.log(randomWord);
+console.log(randomWord);
 //Create Cells, Keyboard
 const cell = new Cells();
 cell.createCells();
@@ -39,6 +45,13 @@ function trackKeyPress(event) {
   }
   if (event.key === 'Backspace' || event.key === 'Delete') {
     deleteKey();
+    return;
+  }
+  if (event.key === 'Enter') {
+    const activeCells = getActiveCells();
+    if (activeCells.length === wordLength) {
+      checkInputWord();
+    }
     return;
   }
 }
@@ -83,7 +96,7 @@ function getNextCell() {
   const nextCell = cellContainer.querySelector(':not([data-letter])');
   if (nextCell) {
     nextCell.classList.add('intarget');
-  }  
+  }
 }
 function getActiveCells() {
   return cellContainer.querySelectorAll('.active');
@@ -129,10 +142,25 @@ function collectInputLetter() {
   const activeCells = [...getActiveCells()];
   return activeCells.reduce((word, item) => word + item.dataset.letter, '');  
 }
+function getKeys() {
+  return keyboardContainer.querySelectorAll('.key');
+}
+function findKeyInKeyBoard(letter) {
+  const keysArr = [...getKeys()];
+  let keyNum;
+  keysArr.forEach((key, i) => {
+    if (key.dataset.keys === letter) {
+      keyNum = i;
+    }
+  })
+  return keysArr[keyNum];
+}
 
 function checkInputWord() {
   const activeCells = getActiveCells();
   const word = collectInputLetter();
+  popUpAbsent.classList.add('hide');
+  popUpLost.classList.add('hide');
   if (dictionary.includes(word, 0)) {
     const wordArr = word.split('');
     wordArr.forEach((letter, i) => {
@@ -143,10 +171,21 @@ function checkInputWord() {
           activeCells[i].classList.remove('active');
           activeCells[i].classList.add('correct');
 
+          const keyElement = findKeyInKeyBoard(letter);
+          if (keyElement.classList.contains('wrong-place')) {
+            keyElement.classList.remove('wrong-place');
+          }
+          keyElement.classList.add('correct');
+          console.log(activeCells[i].dataset.letter);
+          console.log(keyElement);
         } else if (pos !== notFound && pos !== i) {
-
           activeCells[i].classList.remove('active');
           activeCells[i].classList.add('wrong-place');
+
+          const keyElement = findKeyInKeyBoard(letter);
+          if (!keyElement.classList.contains('correct')) {
+            keyElement.classList.add('wrong-place');
+          }
         }
         pos += 1;
       }
@@ -154,30 +193,32 @@ function checkInputWord() {
       if (randomWord.indexOf(letter, pos) === notFound) {
         activeCells[i].classList.remove('active');
         activeCells[i].classList.add('wrong');
+
+        const keyElement = findKeyInKeyBoard(letter);
+        keyElement.classList.add('wrong');
       }
     });
     getNextCell();
-    if (word === randomWord) {
-      setTimeout(() => {
-        alert('Вітаю! Ви Виграли!');
-      }, sec);
-      setTimeout(() => {
-        document.location.reload();
-      }, sec);
-      
-    }
+
     const checkedCells = getCheckedCells();
-    if (checkedCells.length === totalCellsNumber) {
-      setTimeout(() => {
-        alert('Ви програли :(');
-      }, sec);
-      setTimeout(() => {
-        document.location.reload();
-      }, sec);
+    
+    if (word === randomWord) {
+      popUpStart.classList.add('hide');
+      popUpWrap.classList.remove('close');
+      popUp.classList.remove('close__back');
+      popUpWin.classList.remove('hide');
+    } else if (checkedCells.length === totalCellsNumber) {
+      popUpStart.classList.add('hide');
+      popUpWrap.classList.remove('close');
+      popUp.classList.remove('close__back');
+      popUpLost.classList.remove('hide');
     }
     checkBtn();  
   } else {
-    alert("Цього слова не має у словнику");
+    popUpStart.classList.add('hide');
+    popUpWrap.classList.remove('close');
+    popUp.classList.remove('close__back');
+    popUpAbsent.classList.remove('hide');
     const activeCells = [...getActiveCells()];
     activeCells.forEach(() => {
       deleteKey();
@@ -189,3 +230,14 @@ btnCheck.addEventListener('click', checkInputWord);
 btnReset.addEventListener('click', () => {
   document.location.reload();
 });
+
+//Pop-Up close
+popUp.addEventListener('click', (event) => {
+  const target = event.target;
+  console.log(target);
+  if (target.classList.contains('pop-up__close') ||
+    target.classList.contains('pop-up')) {
+    popUpWrap.classList.add('close');
+    popUp.classList.add('close__back');
+  }
+})
