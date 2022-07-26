@@ -12,17 +12,27 @@
   <main class="main">
     <div class="main-container container">
       <h1 class="title">Вгадай <span class="title__color">Слово</span></h1>
-      <div class="game-rools">
-        <div class="game-rools__wrap">
-          <button class="game-rools__close">X</button>
-          <h2 class="game-rools__title green">Правила 
-            <span class="yellow">гри!</span>
-          </h2>
-          <p class="game-rools__descrip">
-            Вгадай слово із 5 літер. В тебе шість спроб. Після вводу - натисни Перевірити або Enter. <span class="yellow">Жовтим</span> позначені літери, які є у Слові, але на іншій позиції. <span class="green">Зеленим</span> - літери, які є в слові і саме на тій позиції. <span class="grey">Сірим</span> - літери, відсутні у слові.
+      <div class="pop-up">
+        <div class="pop-up__wrap">
+          <button class="pop-up__close">X</button>
+          <div class="pop-up__start">            
+            <h2 class="pop-up__title green">Правила 
+              <span class="yellow">гри!</span>
+            </h2>
+            <p class="pop-up__descrip">
+              Вгадай слово із 5 літер. В тебе шість спроб. Після вводу - натисни Перевірити або Enter. <span class="yellow">Жовтим</span> позначені літери, які є у Слові, але на іншій позиції. <span class="green">Зеленим</span> - літери, які є в слові і саме на тій позиції. <span class="grey">Сірим</span> - літери, відсутні у слові.
+            </p>
+          </div>          
+          <p class="pop-up__win hide">
+            Вітаю! Ви Виграли!
           </p>
-        </div>
-                
+          <p class="pop-up__lost hide">
+            Ви програли.
+          </p>
+          <p class="pop-up__absent hide">
+            Цього слова не має у словнику.
+          </p>
+        </div>                
       </div>
       <div class="cell-container">
       </div>
