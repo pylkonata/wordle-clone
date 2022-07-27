@@ -11,6 +11,7 @@ const popUpStart = document.querySelector('.pop-up__start');
 const popUpWin = document.querySelector('.pop-up__win');
 const popUpLost = document.querySelector('.pop-up__lost');
 const popUpAbsent = document.querySelector('.pop-up__absent');
+const word = document.querySelector('.word');
 const wordLength = 5;
 const notFound = -1;
 const sec = 500;
@@ -24,7 +25,7 @@ function getRandomNum(min, max) {
 let randomNum = getRandomNum(0, dictionary.length - 1);
 let randomWord = dictionary[randomNum];
 // console.log(randomWord);
-
+word.dataset.word = randomWord;
 //Create Cells, Keyboard
 const cell = new Cells();
 cell.createCells();
@@ -221,7 +222,7 @@ function checkInputWord() {
     activeCells.forEach(() => {
       deleteKey();
     });
-  }  
+  }
 }
 // Btn Listeners
 btnCheck.addEventListener('click', checkInputWord);
@@ -230,7 +231,7 @@ btnReset.addEventListener('click', () => {
 });
 
 //Pop-Up close
-popUp.addEventListener('click', (event) => {
+popUp.addEventListener('pointerdown', (event) => {
   const target = event.target;
   if (target.classList.contains('pop-up__close') ||
     target.classList.contains('pop-up')) {
