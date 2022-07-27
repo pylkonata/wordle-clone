@@ -52,6 +52,23 @@ body,
 .title__color{
   color: var(--wp);  
 }
+.word {
+  position: relative;
+  color: rgb(157, 144, 144);
+  background-color: var(--ligth-blue);
+  padding: 0 7px;
+}
+.word:hover::after,
+.word:focus::after {  
+  content: attr(data-word);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(70, 68, 143, 0.9);
+  padding: 0 2px;
+  z-index: 5;
+}
 .pop-up {
   position: absolute;
   width: 100%;
