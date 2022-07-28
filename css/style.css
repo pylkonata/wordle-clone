@@ -42,8 +42,26 @@ body,
   position: relative;
   padding: 0.5em;
 }
-
+.info {
+  width: 50vw;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 25px;
+  align-items: center;
+}
+.github-logo {
+  height: 1em;
+  width: 1em;
+}
+.github-logo:hover,
+.github-logo:focus {
+  background-color: var(--active);
+  transition: 0.5s;
+  transform: scale(1.1, 1.1);
+  border-radius: 100%;
+}
 .title {
+  justify-self: center;
   font-size: 1.5em;
   text-transform: uppercase;
   font-weight: bold;
